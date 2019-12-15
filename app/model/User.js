@@ -9,7 +9,9 @@ const UserSchema = new Schema({
     last_name : String,
     username : String,
     password : {type: 'String', required : true, select : false},
-    email : {type: 'String', required: true, unique: true}
+    email : {type: 'String', required: true, unique: true},
+    date_created : Date,
+    date_modified : Date
 });
 
 // METHODS
@@ -26,9 +28,13 @@ UserSchema.methods.validatePassword = function(password) {
 
 // HOOKS
 UserSchema.pre('save', function() {
+    this.date_modified = new Date();
+    if (!this.isNew)
+        return (1);
     if (!this.email || !this.password)
         return new Promise((res, rej) => rej(new Error("ValidationError")));
-    this.password = this.generateHash(this.password)
+        this.password = this.generateHash(this.password)
+    this.date_created = new Date();
     return (1);
 })
 

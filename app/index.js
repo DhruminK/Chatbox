@@ -2,6 +2,7 @@
 const User = require('./model/User');
 const Token = require('./services/generatetoken');
 const Controller = require('./controller');
+const types = require('mongoose').Types;
 
 // EXPOSING THE FUNCTION TO REST OF THE PROJECT
 module.exports = function(app) {
@@ -15,8 +16,12 @@ module.exports = function(app) {
     // SIGNUP ROUTE
     app.post('/signup', (req, res) => {
         User.create(req.body)
-            .then(user => res.status(200).send(Token.generateToken(app, doc)))
-            .catch(err => res.status(err.name === "ValidationError" || err.code === 11000 ? 412 : (console.log(err), 500)).send());
+            .then(user => {
+                let usr = user.toObject();
+                delete usr.password;
+                return (res.status(200).send(Token.generateToken(app, usr)));
+            })
+            .catch(err => res.status(err.name === "ValidationError" || err.code === 11000 ? 412 : (500)).send());
     });
 
     // LOGIN ROUTE

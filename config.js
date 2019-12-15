@@ -5,6 +5,10 @@ const secret = "abhiiskobhidoondnekoniklegatohmereko15dinjayega"
 
 module.exports = function(app)
 {
-    mongoose.connect(db);
+    mongoose.connect(db, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true
+    });
     app.set('secret', secret);
 }
