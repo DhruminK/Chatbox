@@ -2,7 +2,6 @@
 const User = require('./model/User');
 const Token = require('./services/generatetoken');
 const Controller = require('./controller');
-const types = require('mongoose').Types;
 
 // EXPOSING THE FUNCTION TO REST OF THE PROJECT
 module.exports = function(app) {

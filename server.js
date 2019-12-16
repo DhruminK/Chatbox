@@ -18,4 +18,6 @@ app.use(cors());
 require("./app")(app);
 
 // EXPOSING THE PROGRAM ON PORT 8080
-app.listen(port, () => console.log(`SERVER LISTENING ON PORT : ${port}`));
+const server = app.listen(port, () => console.log(`SERVER LISTENING ON PORT : ${port}`));
+
+require('./socket')(server, app);
